@@ -3,7 +3,7 @@
 
 ## English
 
-### Ripple-JS
+### Web-Ripple-JS
 
 **[Online Demonstration (Click to Access)](https://www.rockaz.top/GitHub-Project-Demo/Ripple-JS/)**  
 *Note: The website server is located in China.*
@@ -104,7 +104,7 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## 中文
 
-### Ripple-JS
+### Web-Ripple-JS
 
 **[在线演示（点击访问）](https://www.rockaz.top/GitHub-Project-Demo/Ripple-JS/)**  
 *注：网站服务器位于中国。
