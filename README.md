@@ -5,7 +5,7 @@
 
 ### Web-Ripple-JS
 
-**[Online Demonstration (Click to Access)](https://www.rockaz.top/GitHub-Project-Demo/Ripple-JS/)**  
+**[Online Demonstration (Click to Access)](https://www.rockaz.top/GitHub-Project-Demo/Web-Ripple-JS/)**  
 *Note: The website server is located in China.*
 
 A lightweight JavaScript library that adds beautiful ripple animation effects to buttons when clicked, enhancing user interaction feedback with smooth visual transitions.
@@ -106,7 +106,7 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ### Web-Ripple-JS
 
-**[在线演示（点击访问）](https://www.rockaz.top/GitHub-Project-Demo/Ripple-JS/)**  
+**[在线演示（点击访问）](https://www.rockaz.top/GitHub-Project-Demo/Web-Ripple-JS/)**  
 *注：网站服务器位于中国。
 
 一个轻量级JavaScript库，为按钮点击添加精美的涟漪动画效果，通过流畅的视觉过渡增强用户交互反馈。
