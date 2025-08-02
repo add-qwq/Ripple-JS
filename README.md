@@ -1,5 +1,5 @@
-# Ripple-JS
-# 按钮点击涟漪效果库
+# Web-Ripple-JS
+# 轻量级点击涟漪效果库
 
 ## English
 
@@ -8,88 +8,129 @@
 **[Online Demonstration (Click to Access)](https://www.rockaz.top/GitHub-Project-Demo/Web-Ripple-JS/)**  
 *Note: The website server is located in China.*
 
-A lightweight JavaScript library that adds beautiful ripple animation effects to buttons when clicked, enhancing user interaction feedback with smooth visual transitions.
+A lightweight JavaScript library that adds elegant ripple animation effects to interactive elements (buttons, links, etc.) when clicked, providing smooth visual feedback for user interactions.
 
-![GitHub license](https://img.shields.io/github/license/add-qwq/Ripple-JS?style=flat-square)
+![GitHub license](https://img.shields.io/github/license/add-qwq/Web-Ripple-JS?style=flat-square)
 
-This library automatically injects necessary styles and attaches ripple effects to all button elements on a page. It also monitors DOM changes to apply ripple effects to dynamically added buttons, ensuring consistent interaction experiences across your entire web application.
+This library automatically applies ripple effects to specified HTML elements, supports dynamic DOM changes, and allows customization of ripple color, quantity limits, and target elements. It works out of the box with zero dependencies.
 
 ### Key Features
 
-- **Automatic Initialization**: Automatically applies ripple effects to all button elements on page load
-- **Dynamic DOM Monitoring**: Detects new buttons added to the DOM and applies ripple effects automatically
-- **Self-contained Styles**: Injects required CSS styles dynamically, no external style sheets needed
-- **Smooth Animations**: Uses CSS animations for performance-optimized ripple effects
-- **No Dependencies**: Lightweight implementation with no external library requirements
-- **Responsive Effects**: Ripple origin matches exact click position for natural-looking feedback
+- **Multi-element Support**: Automatically applies to button, a, input[type="button"], and input[type="submit"] by default
+- **Dynamic DOM Detection**: Automatically applies ripple effects to elements added dynamically using MutationObserver
+- **Customizable Ripple Color**: Uses default color or custom color via data-ripple-color attribute
+- **Ripple Quantity Control**: Limits maximum concurrent ripples to prevent performance issues
+- **Exclusion Mechanism**: Skip elements with no-ripple class
+- **Zero Dependencies**: Pure vanilla JavaScript implementation, no external libraries required
+- **Self-contained Styles**: Dynamically injects necessary CSS, no external stylesheets needed
+- **Precise Origin**: Ripple starts exactly from the click position for natural feedback
 
 ### How It Works
 
-Ripple-JS creates a circular ripple effect that emanates from the exact click position on button elements:
-
-1. **Style Injection**: Adds necessary CSS styles to the document head for ripple effect rendering
-2. **Element Preparation**: Adds required classes and container elements to buttons
-3. **Event Handling**: Listens for mousedown events to trigger ripple animations
-4. **Animation Management**: Creates, animates, and cleans up ripple elements automatically
-5. **DOM Observation**: Uses MutationObserver to detect new buttons and apply effects dynamically
+1. **Style Injection**: Adds required CSS styles to the document head on initialization
+2. **Element Initialization**: Attaches ripple capabilities to target elements by adding necessary classes and containers
+3. **Event Handling**: Listens for mousedown events to trigger ripple creation
+4. **Ripple Generation**: Creates circular ripple elements at click position with calculated size
+5. **Animation Management**: Handles ripple expansion animation and automatic cleanup after completion
+6. **DOM Monitoring**: Observes DOM changes to apply effects to newly added elements
 
 ### Usage
 
 #### Basic Integration
 
-1. Include the ripple.js script in your HTML document:
+1. Include the script in your HTML:
    ```html
-   <script src="path/to/ripple.js"></script>
+   <script src="path/to/web-ripple.js"></script>
    ```
 
-2. The library automatically initializes when the DOM content is loaded. All existing buttons will have ripple effects applied, and any new buttons added dynamically will also get ripple effects automatically.
+2. The library initializes automatically when DOMContentLoaded event fires. All target elements will have ripple effects by default.
 
-#### No Additional Configuration Needed
+#### Example Elements
 
-Ripple-JS works out of the box with default settings. Simply include the script, and all buttons will immediately have ripple effects on click.
+```html
+<!-- Default ripple -->
+<button>Click Me</button>
+
+<!-- Custom ripple color -->
+<a href="#" data-ripple-color="rgba(0, 255, 255, 0.3)">Link with Cyan Ripple</a>
+
+<!-- Excluded from ripple effect -->
+<button class="no-ripple">No Ripple Here</button>
+
+<!-- Input buttons are supported too -->
+<input type="button" value="Input Button">
+<input type="submit" value="Submit Button">
+```
 
 ### Customization
 
-You can customize the ripple effect by modifying the generated CSS variables or overriding the default styles. For example:
+#### Via Data Attribute
 
+Set custom ripple color for individual elements:
+```html
+<button data-ripple-color="rgba(255, 100, 100, 0.5)">Red Tint Ripple</button>
+```
+
+#### Via CSS Override
+
+Customize animation duration, scale, or other properties:
 ```css
-/* Custom ripple color and animation duration */
+/* Custom animation duration */
 .ripple__dot {
-    background-color: rgba(0, 123, 255, 0.3); /* Blue tint */
-    animation: ripple-animation 1s ease-out forwards; /* Longer animation */
+    animation: ripple-animation 1s ease-out forwards;
 }
 
+/* Larger ripple scale */
 @keyframes ripple-animation {
     to {
         opacity: 0;
-        transform: scale(3); /* Larger ripple */
+        transform: scale(3);
     }
 }
 ```
 
+#### Via Configuration (Modify Source)
+
+Adjust default settings in the RIPPLE_CONFIG object:
+```javascript
+const RIPPLE_CONFIG = {
+    targetTags: ['button', 'a', 'input[type="button"]'], // Modify target elements
+    defaultColor: 'rgba(0, 0, 0, 0.2)', // Change default color
+    maxActiveRipples: 3, // Adjust maximum concurrent ripples
+    observeRoot: document.getElementById('content'), // Change observation root
+    excludeClass: 'no-ripple' // Modify exclusion class
+};
+```
+
 ### API Reference
 
-#### injectRippleStyles()
-Injects the required CSS styles into the document head if they don't already exist. Automatically called during initialization.
+The library exposes a global Ripple object:
 
-#### addRippleToButton(button)
-Adds ripple effect capabilities to a specific button element. Adds necessary classes and event listeners.
+#### Ripple.init()
+Manually re-initialize ripple effects (useful after manually adding elements without DOM mutation).
 
-#### initRippleEffects()
-Initializes ripple effects for all existing button elements in the DOM. Automatically called during initialization.
+```javascript
+// Call after adding elements dynamically without DOM mutation
+Ripple.init();
+```
 
-#### observeDOMChanges()
-Sets up a MutationObserver to detect new button elements added to the DOM and apply ripple effects to them. Automatically called during initialization.
+#### Ripple.destroy()
+Removes all ripple effects and event listeners, disconnects the DOM observer.
+
+```javascript
+// Clean up ripple effects
+Ripple.destroy();
+```
 
 ### Compatibility
 
-Ripple-JS works with all modern browsers that support:
-- CSS animations
+Supports all modern browsers with these features:
+- CSS Animations
 - MutationObserver
 - getBoundingClientRect
 - addEventListener
 
-Supported browsers include:
+**Supported Browsers:**
 - Chrome 26+
 - Firefox 14+
 - Edge 12+
@@ -107,90 +148,131 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 ### Web-Ripple-JS
 
 **[在线演示（点击访问）](https://www.rockaz.top/GitHub-Project-Demo/Web-Ripple-JS/)**  
-*注：网站服务器位于中国。
+*注：网站服务器位于中国。*
 
-一个轻量级JavaScript库，为按钮点击添加精美的涟漪动画效果，通过流畅的视觉过渡增强用户交互反馈。
+一个轻量级JavaScript库，为交互元素（按钮、链接等）添加优雅的点击涟漪动画效果，为用户交互提供流畅的视觉反馈。
 
-![GitHub license](https://img.shields.io/github/license/add-qwq/Ripple-JS?style=flat-square)
+![GitHub license](https://img.shields.io/github/license/add-qwq/Web-Ripple-JS?style=flat-square)
 
-该库自动注入必要样式，并为页面上的所有按钮元素添加涟漪效果。它还会监控DOM变化，为动态添加的按钮应用涟漪效果，确保整个Web应用中交互体验的一致性。
+该库自动为指定的HTML元素应用涟漪效果，支持动态DOM变化，并允许自定义涟漪颜色、数量限制和目标元素。无需依赖其他库，开箱即用。
 
 ### 核心功能
 
-- **自动初始化**：页面加载时自动为所有按钮元素应用涟漪效果
-- **动态DOM监控**：检测添加到DOM的新按钮并自动应用涟漪效果
-- **内置样式**：动态注入所需CSS样式，无需外部样式表
-- **流畅动画**：使用CSS动画实现性能优化的涟漪效果
-- **无依赖**：轻量级实现，无需外部库支持
-- **响应式效果**：涟漪原点与精确点击位置匹配，呈现自然反馈
+- **多元素支持**：默认自动应用于button、a、input[type="button"]和input[type="submit"]
+- **动态DOM检测**：使用MutationObserver自动为动态添加的元素应用涟漪效果
+- **自定义涟漪颜色**：使用默认颜色或通过data-ripple-color属性设置自定义颜色
+- **涟漪数量控制**：限制最大并发涟漪数量，防止性能问题
+- **排除机制**：带有no-ripple类的元素会被跳过
+- **无依赖**：纯原生JavaScript实现，无需外部库
+- **内置样式**：动态注入必要的CSS，无需外部样式表
+- **精确原点**：涟漪从精确点击位置开始，提供自然反馈
 
 ### 工作原理
 
-Ripple-JS创建从按钮元素上精确点击位置发出的圆形涟漪效果：
-
-1. **样式注入**：将必要的CSS样式添加到文档头部，用于渲染涟漪效果
-2. **元素准备**：为按钮添加所需的类和容器元素
-3. **事件处理**：监听mousedown事件以触发涟漪动画
-4. **动画管理**：自动创建、动画和清理涟漪元素
-5. **DOM观察**：使用MutationObserver检测新按钮并动态应用效果
+1. **样式注入**：初始化时向文档头部添加所需的CSS样式
+2. **元素初始化**：通过添加必要的类和容器，为目标元素附加涟漪功能
+3. **事件处理**：监听mousedown事件以触发涟漪创建
+4. **涟漪生成**：在点击位置创建圆形涟漪元素，并计算合适的大小
+5. **动画管理**：处理涟漪扩展动画，并在完成后自动清理
+6. **DOM监控**：观察DOM变化，为新添加的元素应用效果
 
 ### 使用方法
 
 #### 基本集成
 
-1. 在HTML文档中引入ripple.js脚本：
+1. 在HTML中引入脚本：
    ```html
-   <script src="path/to/ripple.js"></script>
+   <script src="path/to/web-ripple.js"></script>
    ```
 
-2. 库会在DOM内容加载完成后自动初始化。所有现有按钮都会应用涟漪效果，动态添加的新按钮也会自动获得涟漪效果。
+2. 库会在DOMContentLoaded事件触发时自动初始化。所有目标元素默认会具有涟漪效果。
 
-#### 无需额外配置
+#### 示例元素
 
-Ripple-JS使用默认设置即可开箱即用。只需包含脚本，所有按钮在点击时立即拥有涟漪效果。
+```html
+<!-- 默认涟漪效果 -->
+<button>点击我</button>
+
+<!-- 自定义涟漪颜色 -->
+<a href="#" data-ripple-color="rgba(0, 255, 255, 0.3)">青色涟漪链接</a>
+
+<!-- 排除涟漪效果 -->
+<button class="no-ripple">无涟漪按钮</button>
+
+<!-- 支持输入按钮 -->
+<input type="button" value="输入按钮">
+<input type="submit" value="提交按钮">
+```
 
 ### 自定义
 
-您可以通过修改生成的CSS变量或覆盖默认样式来自定义涟漪效果。例如：
+#### 通过数据属性
 
+为单个元素设置自定义涟漪颜色：
+```html
+<button data-ripple-color="rgba(255, 100, 100, 0.5)">红色调涟漪</button>
+```
+
+#### 通过CSS覆盖
+
+自定义动画持续时间、缩放比例或其他属性：
 ```css
-/* 自定义涟漪颜色和动画持续时间 */
+/* 自定义动画持续时间 */
 .ripple__dot {
-    background-color: rgba(0, 123, 255, 0.3); /* 蓝色色调 */
-    animation: ripple-animation 1s ease-out forwards; /* 更长的动画 */
+    animation: ripple-animation 1s ease-out forwards;
 }
 
+/* 更大的涟漪缩放 */
 @keyframes ripple-animation {
     to {
         opacity: 0;
-        transform: scale(3); /* 更大的涟漪 */
+        transform: scale(3);
     }
 }
 ```
 
+#### 通过配置（修改源代码）
+
+在RIPPLE_CONFIG对象中调整默认设置：
+```javascript
+const RIPPLE_CONFIG = {
+    targetTags: ['button', 'a', 'input[type="button"]'], // 修改目标元素
+    defaultColor: 'rgba(0, 0, 0, 0.2)', // 更改默认颜色
+    maxActiveRipples: 3, // 调整最大并发涟漪数
+    observeRoot: document.getElementById('content'), // 更改观察根节点
+    excludeClass: 'no-ripple' // 修改排除类
+};
+```
+
 ### API参考
 
-#### injectRippleStyles()
-将所需CSS样式注入文档头部（如果不存在）。初始化时自动调用。
+库暴露一个全局Ripple对象：
 
-#### addRippleToButton(button)
-为特定按钮元素添加涟漪效果功能。添加必要的类和事件监听器。
+#### Ripple.init()
+手动重新初始化涟漪效果（在不通过DOM突变手动添加元素后很有用）。
 
-#### initRippleEffects()
-为DOM中所有现有按钮元素初始化涟漪效果。初始化时自动调用。
+```javascript
+// 在不通过DOM突变动态添加元素后调用
+Ripple.init();
+```
 
-#### observeDOMChanges()
-设置MutationObserver以检测添加到DOM的新按钮元素，并为其应用涟漪效果。初始化时自动调用。
+#### Ripple.destroy()
+移除所有涟漪效果和事件监听器，断开DOM观察器。
+
+```javascript
+// 清理涟漪效果
+Ripple.destroy();
+```
 
 ### 兼容性
 
-Ripple-JS兼容所有支持以下功能的现代浏览器：
+支持所有具备以下特性的现代浏览器：
 - CSS动画
 - MutationObserver
 - getBoundingClientRect
 - addEventListener
 
-支持的浏览器包括：
+**支持的浏览器：**
 - Chrome 26+
 - Firefox 14+
 - Edge 12+
